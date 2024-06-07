@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.py.mapper.UserMapper">
+    <resultMap id="UserMap" type="com.py.domain.User">
+        <result column="user_name" property="userName" jdbcType="VARCHAR" />
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="status" property="status" jdbcType="CHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <result column="phonenumber" property="phonenumber" jdbcType="VARCHAR" />
+        <result column="sex" property="sex" jdbcType="CHAR" />
+        <result column="avatar" property="avatar" jdbcType="VARCHAR" />
+        <result column="user_type" property="userType" jdbcType="INTEGER" />
+        <result column="create_by" property="createBy" jdbcType="BIGINT" />
+        <result column="create_time" property="createTime" jdbcType="DATE" />
+        <result column="update_by" property="updateBy" jdbcType="BIGINT" />
+        <result column="update_time" property="updateTime" jdbcType="DATE" />
+        <result column="del_flag" property="delFlag" jdbcType="INTEGER" />
+    </resultMap>
+
+    <insert id="addUser" parameterType="com.py.domain.User">
+        <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        insert into sys_user (user_name, nick_name, password, status, email, phonenumber, sex, avatar, user_type,
+                              create_time)
+            VALUE (#{userName}, #{nickName}, #{password}, #{status}, #{email}, #{phonenumber}, #{sex}, #{avatar},
+                   #{userType}, #{createTime})
+    </insert>
+
+    <update id="updateUserPassWord">
+        update sys_user set password = #{encode}
+        where id = #{userId}
+    </update>
+
+    <update id="updatePasswordByUserName">
+        update sys_user set password = #{encode}
+        where user_name = #{username}
+    </update>
+
+    <update id="update">
+        update sys_user
+        <set>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status},
+            </if>
+            <if test="phonenumber != null and phonenumber != ''">
+                phonenumber = #{phonenumber},
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex},
+            </if>
+            <if test="avatar != null and avatar != ''">
+                avatar = #{avatar},
+            </if>
+            <if test="userType != null and userType != ''">
+                user_type = #{userType},
+            </if>
+            <if test="updateBy != null and updateBy != ''">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+        </set>
+        where id = #{id}
+
+    </update>
+    <select id="selectBaseInformById" resultType="com.py.domain.User">
+        select id, user_name, nick_name, email, phonenumber, sex, avatar, user_type, create_by, create_time, update_by,
+                update_time, del_flag
+        from sys_user where id = #{userId}
+    </select>
+
+</mapper>

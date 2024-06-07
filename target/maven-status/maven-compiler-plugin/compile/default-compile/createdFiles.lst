@@ -1,0 +1,6 @@
+com\py\mapper\CommentMapper.class
+com\py\domain\ResponseBody\VideoComment.class
+com\py\domain\ResponseBody\VideoInform.class
+com\py\domain\ResponseBody\CommentBody.class
+com\py\domain\ResponseBody\VideoUpdateInfoBody.class
+com\py\domain\ResponseBody\VideoUpdateNoramlBody.class

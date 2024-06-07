@@ -1,0 +1,85 @@
+-------------------------------------------------------------------------------
+Test set: com.py.UserServiceTest
+-------------------------------------------------------------------------------
+Tests run: 7, Failures: 0, Errors: 3, Skipped: 0, Time elapsed: 5.464 s <<< FAILURE! - in com.py.UserServiceTest
+updateFunction  Time elapsed: 1.021 s  <<< ERROR!
+org.mybatis.spring.MyBatisSystemException: 
+nested exception is org.apache.ibatis.exceptions.PersistenceException: 
+### Error updating database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+### The error may exist in file [C:\Users\。\Desktop\SpringSecurity\源码\SanGeng_Security_Project_Right\SanGeng_Security_Project\Short_Video_App\target\classes\mapper\UserMapper.xml]
+### The error may involve com.py.mapper.UserMapper.update
+### The error occurred while executing an update
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.py.UserServiceTest.updateFunction(UserServiceTest.java:79)
+Caused by: org.apache.ibatis.exceptions.PersistenceException: 
+
+### Error updating database.  Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+### The error may exist in file [C:\Users\。\Desktop\SpringSecurity\源码\SanGeng_Security_Project_Right\SanGeng_Security_Project\Short_Video_App\target\classes\mapper\UserMapper.xml]
+### The error may involve com.py.mapper.UserMapper.update
+### The error occurred while executing an update
+### Cause: org.springframework.jdbc.CannotGetJdbcConnectionException: Failed to obtain JDBC Connection; nested exception is com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.py.UserServiceTest.updateFunction(UserServiceTest.java:79)
+Caused by: org.springframework.jdbc.CannotGetJdbcConnectionException: 
+Failed to obtain JDBC Connection; nested exception is com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.py.UserServiceTest.updateFunction(UserServiceTest.java:79)
+Caused by: com.mysql.cj.jdbc.exceptions.CommunicationsException: 
+Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.py.UserServiceTest.updateFunction(UserServiceTest.java:79)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: 
+Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.py.UserServiceTest.updateFunction(UserServiceTest.java:79)
+Caused by: java.net.UnknownHostException: rm-cn-5yd3h85ce000mpro.rwlb.rds.aliyuncs.com
+	at com.py.UserServiceTest.updateFunction(UserServiceTest.java:79)
+
+testAdd  Time elapsed: 1.014 s  <<< ERROR!
+org.springframework.transaction.CannotCreateTransactionException: 
+Could not open JDBC Connection for transaction; nested exception is com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.py.UserServiceTest.testAdd(UserServiceTest.java:41)
+Caused by: com.mysql.cj.jdbc.exceptions.CommunicationsException: 
+Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.py.UserServiceTest.testAdd(UserServiceTest.java:41)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: 
+Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.py.UserServiceTest.testAdd(UserServiceTest.java:41)
+Caused by: java.net.UnknownHostException: rm-cn-5yd3h85ce000mpro.rwlb.rds.aliyuncs.com
+	at com.py.UserServiceTest.testAdd(UserServiceTest.java:41)
+
+forgetPasswordChange  Time elapsed: 1.008 s  <<< ERROR!
+org.springframework.transaction.CannotCreateTransactionException: 
+Could not open JDBC Connection for transaction; nested exception is com.mysql.cj.jdbc.exceptions.CommunicationsException: Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.py.UserServiceTest.forgetPasswordChange(UserServiceTest.java:60)
+Caused by: com.mysql.cj.jdbc.exceptions.CommunicationsException: 
+Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.py.UserServiceTest.forgetPasswordChange(UserServiceTest.java:60)
+Caused by: com.mysql.cj.exceptions.CJCommunicationsException: 
+Communications link failure
+
+The last packet sent successfully to the server was 0 milliseconds ago. The driver has not received any packets from the server.
+	at com.py.UserServiceTest.forgetPasswordChange(UserServiceTest.java:60)
+Caused by: java.net.UnknownHostException: rm-cn-5yd3h85ce000mpro.rwlb.rds.aliyuncs.com
+	at com.py.UserServiceTest.forgetPasswordChange(UserServiceTest.java:60)
+
