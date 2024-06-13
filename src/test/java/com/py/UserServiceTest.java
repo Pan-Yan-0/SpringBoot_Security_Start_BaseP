@@ -1,7 +1,11 @@
 package com.py;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
 import com.py.controller.UserController;
 import com.py.domain.CheckCode;
+import com.py.domain.Game;
 import com.py.domain.ResponseResult;
 import com.py.domain.User;
 import com.py.mapper.UserMapper;
@@ -9,18 +13,36 @@ import com.py.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 @SpringBootTest
 public class UserServiceTest {
     @Autowired
+    private MongoTemplate mongoTemplate;
+    @Autowired
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
     @Test
+    public void test1(){
+        Game game = new Game();
+        game.setTypes(new ArrayList<>(1));
+        game.setAnswer(new ArrayList<>(1));
+        game.setDifficulty(1);
+        game.setValues(new ArrayList<>(1));
+        Game game1 = mongoTemplate.insert(game);
+        System.out.println(game1);
+    }
+    @Test
     public void sendEmail(){
+//        ResponseResult result = userService.sendMail("2587719445@qq.com", "regist");
+//        ResponseResult result = userService.sendMail("2587719445@qq.com", "updateemail");
+//        ResponseResult result = userService.sendMail("2587719445@qq.com", "updatepassword");
         ResponseResult result = userService.sendMail("2587719445@qq.com", "forgetpassword");
+//
         System.out.println(result.getCode());
         System.out.println(result.getMsg());
     }
@@ -38,7 +60,7 @@ public class UserServiceTest {
         user.setPassword("1234");
         user.setPhonenumber("123123213");
         user.setEmail("2587719445@qq.com");
-        userService.register(user,"759126");
+        userService.register(user,"195873");
     }
 
     @Test
@@ -48,7 +70,7 @@ public class UserServiceTest {
 
     @Test
     public void forgetPassword(){
-        ResponseResult result = userService.checkCode(new CheckCode("2587719445@qq.com", "634176"));
+        ResponseResult result = userService.checkCode(new CheckCode("2587719445@qq.com", "679077"));
         System.out.println(result.getMsg());
         System.out.println(result.getCode());
     }

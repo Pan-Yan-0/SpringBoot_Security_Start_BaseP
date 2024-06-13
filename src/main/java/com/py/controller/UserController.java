@@ -104,7 +104,6 @@ public class UserController {
         User user = new User();
         user.setNickName(registBody.getNickName());
         user.setEmail(registBody.getEmail());
-        user.setPhonenumber(registBody.getPhonenumber());
         user.setPassword(registBody.getPassword());
         ResponseResult result = userService.register(user, registBody.getCode());
         return result;

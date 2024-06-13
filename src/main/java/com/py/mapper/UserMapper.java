@@ -32,8 +32,4 @@ public interface UserMapper extends BaseMapper<User> {
     Integer updateUserName(Long userId, String email);
 
     User selectBaseInformById(Long userId);
-    @Select("select count(*) as subscribed_id from user_fan where subscribed_id = #{userId}")
-    Integer getFanNumById(Long userId);
-    @Select("select count(*) as user_id from user_fan where user_id = #{userId}")
-    Integer getSubscribeNumById(Long userId);
 }

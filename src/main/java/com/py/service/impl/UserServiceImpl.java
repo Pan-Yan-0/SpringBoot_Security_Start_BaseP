@@ -416,22 +416,9 @@ public class UserServiceImpl implements UserService {
             log.error(userId + "获取用户信息从数据库中失败！");
             return new ResponseResult<>(403, "获取用户信息失败！！");
         }
-        Integer fanNumById;
-        try {
-            fanNumById = userMapper.getFanNumById(userId);
-        } catch (RuntimeException e) {
-            log.error(userId + "获取用户信息从数据库中失败！");
-            return new ResponseResult<>(403, "获取用户信息失败！！");
-        }
-        Integer subscribeNumById;
-        try {
-            subscribeNumById = userMapper.getSubscribeNumById(userId);
-        } catch (RuntimeException e) {
-            log.error(userId + "获取用户信息从数据库中失败！");
-            return new ResponseResult<>(403, "获取用户信息失败！！");
-        }
-        UserInform userInform = new UserInform(user, fanNumById, subscribeNumById);
 
-        return new ResponseResult<>(200, "获取用户信息成功！", userInform);
+
+
+        return new ResponseResult<>(200, "获取用户信息成功！", user);
     }
 }

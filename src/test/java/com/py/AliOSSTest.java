@@ -16,7 +16,7 @@ public class AliOSSTest {
     public void testUpload(){
         String upload;
         try {
-            upload = aliOSSUtils.upload("C:\\Users\\。\\Desktop\\SpringSecurity\\源码\\SanGeng_Security_Project_Right\\SanGeng_Security_Project\\Short_Video_App\\src\\test\\resources\\未命名文件-导出.png");
+            upload = aliOSSUtils.upload("C:\\Users\\。\\Desktop\\IKUN_JAVA\\src\\test\\resources\\未命名文件-导出.png");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
