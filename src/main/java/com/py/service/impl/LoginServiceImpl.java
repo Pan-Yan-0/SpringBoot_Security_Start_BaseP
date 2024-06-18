@@ -6,6 +6,7 @@ import com.py.domain.User;
 import com.py.service.LoginServcie;
 import com.py.utils.JwtUtil;
 import com.py.utils.RedisCache;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-
+@Slf4j
 @Service
 public class LoginServiceImpl implements LoginServcie {
 
@@ -34,7 +35,8 @@ public class LoginServiceImpl implements LoginServcie {
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         //如果认证没通过，给出对应的提示
         if (Objects.isNull(authenticate)) {
-            throw new RuntimeException("登录失败");
+            log.info("登录失败");
+            return new ResponseResult<>(200,"用户名或密码错误");
         }
         //如果认证通过了，使用userid生成一个jwt jwt存入ResponseResult返回
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();

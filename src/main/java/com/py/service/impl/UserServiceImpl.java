@@ -159,7 +159,7 @@ public class UserServiceImpl implements UserService {
             /*
              * 判断必须参数是否为空
              * */
-            if (user.getNickName() == null || user.getPassword() == null || user.getPhonenumber() == null) {
+            if (user.getNickName() == null || user.getPassword() == null) {
                 log.error("客户端发送的参数有为空的！！！");
                 return new ResponseResult<>(403, "邮箱或者密码为空！！！");
             }
@@ -176,7 +176,7 @@ public class UserServiceImpl implements UserService {
             System.out.println(userId);
             if (userId != 0) {
                 //给用户设置权限
-                userMapper.addAuthentic(userId, 4L);
+                userMapper.addAuthentic(userId, 5L);
                 log.info(email + "注册成功");
                 return new ResponseResult<>(200, "注册成功！！");
             } else {

@@ -117,7 +117,6 @@ public class UserController {
     @PostMapping("/SendMail")
     public ResponseResult sendMail(@RequestBody SendMailRequest sendMailUtils) {
 
-        ResponseResult result = userService.sendMail(sendMailUtils.getToUserMail(), sendMailUtils.getWhere());
         Object cacheObject = redisCache.getCacheObject(sendMailUtils.getToUserMail() + sendMailUtils.getWhere());
         //拒绝在上次验证码有效期内重复使用该接口
         if (!Objects.isNull(cacheObject)) {
@@ -126,6 +125,7 @@ public class UserController {
 
             return new ResponseResult(1000, "重复发送验证码操作,禁止调用该接口！");
         }
+        ResponseResult result = userService.sendMail(sendMailUtils.getToUserMail(), sendMailUtils.getWhere());
         log.info("正在使用发送验证码接口操作中");
         return result;
     }

@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +27,8 @@ public class UserServiceTest {
     private UserService userService;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @Test
     public void test1(){
         Game game = new Game();
@@ -67,7 +70,11 @@ public class UserServiceTest {
     public void upDatePassword(){
 
     }
-
+    @Test
+    public void encode(){
+        String encode = passwordEncoder.encode("123456");
+        System.out.println(encode);
+    }
     @Test
     public void forgetPassword(){
         ResponseResult result = userService.checkCode(new CheckCode("2587719445@qq.com", "679077"));
