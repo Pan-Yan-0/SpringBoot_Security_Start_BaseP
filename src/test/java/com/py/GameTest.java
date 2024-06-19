@@ -1,5 +1,6 @@
 package com.py;
 
+import com.py.domain.Game;
 import com.py.domain.RequestBody.AddHistory;
 import com.py.domain.ResponseResult;
 import com.py.mapper.GameMapper;
@@ -7,6 +8,8 @@ import com.py.service.GameService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 
 import java.util.Date;
 import java.util.List;
@@ -37,6 +40,10 @@ public class GameTest {
         }
     }
     @Test
+    public void getHistory(){
+
+    }
+    @Test
     public void multiple(){
         CompletableFuture<ResponseResult> multiple = gameService.multiple(4);
         System.out.println(multiple);
@@ -46,4 +53,5 @@ public class GameTest {
         CompletableFuture<ResponseResult> multiple = gameService.multiple(4);
         System.out.println(multiple);
     }
+
 }

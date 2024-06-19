@@ -3,6 +3,7 @@ package com.py.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.py.domain.Game;
 import com.py.domain.RequestBody.AddHistory;
+import com.py.domain.ResponseBody.HistoryResponseBody;
 import com.py.domain.ResponseBody.MultipleResponBody;
 import com.py.domain.ResponseResult;
 import com.py.mapper.GameMapper;
@@ -15,7 +16,6 @@ import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -56,6 +56,7 @@ public class GameServiceImpl implements GameService {
     private GameMapper gameMapper;
     @Autowired
     private UserMapper userMapper;
+
     @Override
     public ResponseResult getGame(int difficult) {
         log.info("本次的难度：" + difficult);
@@ -72,9 +73,7 @@ public class GameServiceImpl implements GameService {
             return new ResponseResult<>(403, "出现异常错误");
         }
     }
-    /*
-    * @TODO 大概没有测试，应该可以通过了
-    * */
+
 
     @Async
     public CompletableFuture<ResponseResult> multiple(Integer difficult) {
@@ -97,7 +96,7 @@ public class GameServiceImpl implements GameService {
             String value = count + ":" + userId;
             // 没有人在匹配，将当前用户设置为等待匹配状态
             redisCache.setCacheObject(key, value, 60, TimeUnit.MINUTES);
-            waitForMatch(difficult, userId, future,game);
+            waitForMatch(difficult, userId, future, game);
         } else {
             // 有人正在匹配，进行匹配
             String game_oppose = redisCache.getCacheObject(key);
@@ -106,17 +105,22 @@ public class GameServiceImpl implements GameService {
             String opposeId = split[1];
             redisCache.deleteObject(key);
             String success = difficult + ":success";
-            redisCache.setCacheObject(success,userId.toString(),60,TimeUnit.MINUTES);
+            redisCache.setCacheObject(success, userId.toString(), 60, TimeUnit.MINUTES);
             try {
-                Thread.sleep(1 * 1000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
             Query query = new Query();
-            query.addCriteria(Criteria.where("Id").is((int)Integer.valueOf(gameId)));
+            query.addCriteria(Criteria.where("Id").is(Integer.valueOf(gameId)));
             List<Game> games = mongoTemplate.find(query, Game.class);
-            if (games.isEmpty()){
-
+            if (games.isEmpty()) {
+                System.out.println("无游戏");
+                future.complete(new ResponseResult<>(403, "匹配失败，出现异常错误"));
+                return future;
+            }
+            for (Game game : games) {
+                System.out.println(game.toString());
             }
             MultipleResponBody multipleResponBody = new MultipleResponBody();
             multipleResponBody.setGame(games.get(0));
@@ -131,19 +135,23 @@ public class GameServiceImpl implements GameService {
         return future;
     }
 
-    private void waitForMatch(Integer difficult, Long userId, CompletableFuture<ResponseResult> future,Game game) {
+    private void waitForMatch(Integer difficult, Long userId, CompletableFuture<ResponseResult> future, Game game) {
 
         String key = difficult + ":waiting";
         int waitTime = 60; // 等待总时间60秒
-        int interval = 1;  // 每次检查间隔2秒
+        int interval = 1;  // 每次检查间隔1秒
 
         CompletableFuture.runAsync(() -> {
             for (int i = 0; i < waitTime / interval; i++) {
+                if (Thread.currentThread().isInterrupted()) {
+                    future.complete(new ResponseResult<>(404, "匹配被中断"));
+                    return;
+                }
                 try {
                     // 每隔2秒检查一次匹配状态
                     Thread.sleep(interval * 1000);
                 } catch (InterruptedException e) {
-                    future.complete(new ResponseResult<>(500, "匹配被中断"));
+                    future.complete(new ResponseResult<>(404, "匹配被中断"));
                     matchTasks.remove(userId);
                     return;
                 }
@@ -186,9 +194,7 @@ public class GameServiceImpl implements GameService {
         }
         return new ResponseResult<>(200, "添加成功");
     }
-    /*
-    * @TODO 此处返回出错
-    * */
+
     @Override
     public ResponseResult getHistory() {
         List<AddHistory> addHistoryList;
@@ -199,13 +205,23 @@ public class GameServiceImpl implements GameService {
             System.out.println(e);
             return new ResponseResult<>(403, "异常错误");
         }
+        List<HistoryResponseBody> historyResponseBodies = new ArrayList<>();
         try {
             addHistoryList = gameMapper.getHistory(Math.toIntExact(userId));
+            for (AddHistory addHistory : addHistoryList) {
+                HistoryResponseBody historyResponseBody = new HistoryResponseBody();
+                historyResponseBody.setHistory(addHistory);
+                Query query = new Query();
+                query.addCriteria(Criteria.where("Id").is(addHistory.getGameId()));
+                Game game = mongoTemplate.findOne(query, Game.class);
+                historyResponseBody.setGame(game);
+                historyResponseBodies.add(historyResponseBody);
+            }
         } catch (RuntimeException e) {
             System.out.println(e);
             return new ResponseResult<>(403, "数据库异常错误");
         }
-        return new ResponseResult<>(200, "success", addHistoryList);
+        return new ResponseResult<>(200, "success", historyResponseBodies);
     }
 
     @Override

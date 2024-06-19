@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.FieldType;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
@@ -22,7 +23,8 @@ public class Game {
     * 主键
     * */
     @Id
-    private int Id;
+    @Field("id")
+    private int id;
     /*
     * 游戏格子类型
     * */
