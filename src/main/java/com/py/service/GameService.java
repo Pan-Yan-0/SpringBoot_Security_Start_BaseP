@@ -18,4 +18,6 @@ public interface GameService {
     ResponseResult getHistory();
 
     ResponseResult cancelMatch();
+
+    ResponseResult getGameById(Integer gameId);
 }

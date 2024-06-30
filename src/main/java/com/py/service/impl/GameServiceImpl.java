@@ -245,6 +245,20 @@ public class GameServiceImpl implements GameService {
         }
     }
 
+    @Override
+    public ResponseResult getGameById(Integer gameId) {
+        Game game;
+        try {
+            Query query = new Query();
+            query.addCriteria(Criteria.where("Id").is(gameId));
+            game = mongoTemplate.findOne(query, Game.class);
+        }catch (Exception e){
+            log.error("getGameById出现异常错误");
+            return new ResponseResult<>(403,"出现异常错误");
+        }
+        return new ResponseResult<>(200,"获取成功",game);
+    }
+
     @NotNull
     private Long getUserId() {
         // 获取用户的id

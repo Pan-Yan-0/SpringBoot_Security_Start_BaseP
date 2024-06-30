@@ -53,10 +53,16 @@ public class GameController {
         ResponseResult result = gameService.getHistory();
         return result;
     }
-
+    @PreAuthorize("@ex.hasAuthority('normal:game:multiple')")
     @PostMapping("/cancelMatch")
     public ResponseResult cancelMatch() {
         ResponseResult result = gameService.cancelMatch();
+        return result;
+    }
+    @PreAuthorize("@ex.hasAuthority('normal:game:get')")
+    @GetMapping("/getGameById")
+    public ResponseResult getGameById(Integer gameId){
+        ResponseResult result = gameService.getGameById(gameId);
         return result;
     }
 }
